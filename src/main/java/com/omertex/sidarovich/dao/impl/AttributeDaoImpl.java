@@ -8,12 +8,14 @@ import com.omertex.sidarovich.util.HibernateUtil;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Created by ilona on 27.09.15.
  */
+@Repository
 public class AttributeDaoImpl implements AttributeDao {
     @Override
     public void createAttribute(Attribute attribute) throws DAOException {

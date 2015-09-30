@@ -3,6 +3,7 @@ package com.omertex.sidarovich.dao.impl;
 
 import com.omertex.sidarovich.bean.Attribute;
 import com.omertex.sidarovich.bean.Inquiry;
+import com.omertex.sidarovich.dao.AttributeDao;
 import com.omertex.sidarovich.dao.InquireDao;
 import com.omertex.sidarovich.exception.DAOException;
 import com.omertex.sidarovich.util.HibernateUtil;
@@ -11,6 +12,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -22,7 +24,10 @@ import java.util.Set;
  */
 @Repository
 public class InquireDaoImpl implements InquireDao{
+
     private static final Logger LOG = Logger.getLogger(InquireDaoImpl.class);
+    @Autowired
+    AttributeDaoImpl attributeDao;
 
     @Override
     public void createInquire(Inquiry inquiry) throws DAOException {
@@ -35,6 +40,7 @@ public class InquireDaoImpl implements InquireDao{
                 for(Attribute attribute: attributes){
                     attribute.setInquiry(inquiry);
                     session.save(attribute);
+
                 }
             }
             session.getTransaction().commit();
@@ -72,8 +78,14 @@ public class InquireDaoImpl implements InquireDao{
             Set<Attribute> attributes=inquiry.getAttributes();
             for(Attribute attribute: attributes){
                 attribute.setInquiry(inquiry);
-                session.saveOrUpdate(attribute);
+                if (attribute.getId()==null){
+                session.save(attribute);
+                }
+                else {
+                    attributeDao.updateAttribute(attribute);
+                }
             }
+
             session.save(existingInquiry);
             session.getTransaction().commit();
         } catch (HibernateException e) {
