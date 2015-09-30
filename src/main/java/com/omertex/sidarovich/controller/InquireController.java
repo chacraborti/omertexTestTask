@@ -20,41 +20,6 @@ public class InquireController {
     @Autowired
     InquireService inquireService;
 
-//    @RequestMapping(value = "/inquires/add", method = RequestMethod.GET)
-//    public ModelAndView showInquireAddForm (){
-//        ModelAndView mv = new ModelAndView("add_inquire");
-//        mv.addObject("inquireForm", new Inquire());
-//        return mv;
-//    }
-//
-//    @RequestMapping( value="/customers/{customerName}/inquires", method = RequestMethod.POST)
-//    public ModelAndView postInquire (@PathVariable String customerName, @ModelAttribute("inquireForm") Inquire inquire){
-//        ModelAndView mv = new ModelAndView("inquires");
-//        List<Inquire> inquires = null;
-//        try {
-//            inquireService.createInquire(inquire);
-//            inquires=inquireService.findInquiresByCostumer(inquire.getCostumerName());
-//        } catch (ServiceException e) {
-//            LOG.error(e);
-//        }
-//        mv.addObject("inquires", inquires);
-//        return mv;
-//    }
-
-
-
-//        @RequestMapping( value="/customers/{customerName}/inquiries", method = RequestMethod.POST, produces = "application/xml", consumes = "application/xml")
-//    public Inquire postInquire ( @PathVariable String customerName, Inquire inquire){
-//
-//        inquire.setCostumerName(customerName);
-//        try {
-//            inquireService.createInquire(inquire);
-//        } catch (ServiceException e) {
-//            LOG.error(e);
-//        }
-//        return inquire;
-//    }
-
 
     @RequestMapping( value="/customers/{costumerName}/inquiries/{inquiryId}", method = RequestMethod.GET, produces = "application/xml")
     public Inquiry getInquire ( @PathVariable String inquiryId, @PathVariable String costumerName){

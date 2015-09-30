@@ -4,6 +4,9 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by ilona on 24.09.15.
@@ -11,6 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Component
 @Entity
 @Table(name = ("TOPIC"))
+@XmlRootElement
 public class Topic {
     @Id
     @Column(name = ("ID_TOPIC"))
@@ -18,6 +22,9 @@ public class Topic {
     private Long id;
     @Column(name = ("NAME"))
     private String name;
+    @OneToMany(mappedBy = "topic")
+
+    private Set<Inquiry> inquiries = new HashSet<Inquiry>(0);
 
     public Long getId() {
         return id;
@@ -33,6 +40,10 @@ public class Topic {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Inquiry> getInquiries() {
+        return inquiries;
     }
 
     @Override

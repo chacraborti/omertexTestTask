@@ -13,6 +13,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -68,6 +69,11 @@ public class InquireDaoImpl implements InquireDao{
         existingInquiry.setTopic(inquiry.getTopic());
         existingInquiry.setAttributes(inquiry.getAttributes());
         try {
+            Set<Attribute> attributes=inquiry.getAttributes();
+            for(Attribute attribute: attributes){
+                attribute.setInquiry(inquiry);
+                session.saveOrUpdate(attribute);
+            }
             session.save(existingInquiry);
             session.getTransaction().commit();
         } catch (HibernateException e) {
@@ -112,22 +118,32 @@ public class InquireDaoImpl implements InquireDao{
     @Override
     public List<Inquiry> findByCostumer(String costumerName) throws DAOException {
         Session session = HibernateUtil.createSessionFactory().getCurrentSession();
+        List<Inquiry> inquiries;
+        try{
         session.beginTransaction();
-        List<Inquiry> inquiries = session.createCriteria(Inquiry.class)
+        inquiries = session.createCriteria(Inquiry.class)
                         .add(Restrictions.like("costumerName", costumerName))
                         .list();
         session.getTransaction().commit();
+        }catch (HibernateException e){
+            throw new DAOException(e);
+        }
         return inquiries;
     }
 
     @Override
     public List<Inquiry> findInquiresById(Long id) throws DAOException {
         Session session = HibernateUtil.createSessionFactory().getCurrentSession();
+        List<Inquiry> inquiries;
+        try{
         session.beginTransaction();
-        List<Inquiry> inquiries = session.createCriteria(Inquiry.class)
+        inquiries = session.createCriteria(Inquiry.class)
                 .add(Restrictions.like("id", id))
                 .list();
         session.getTransaction().commit();
+        }catch (HibernateException e){
+            throw new DAOException(e);
+        }
         return inquiries;
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,7 +27,7 @@ public class Inquiry {
     private Date createDate;
     @Column(name = ("COSTUMER_NAME"))
     private String costumerName;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name=("ID_TOPIC"))
     private Topic topic;
     @OneToMany(mappedBy = "inquiry")

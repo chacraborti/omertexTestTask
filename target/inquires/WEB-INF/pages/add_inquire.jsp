@@ -15,9 +15,6 @@
 </head>
 <body>
 <h1>New inquire</h1>
-<%--<c:url var="saveUrl" value="edit?id=${inquireForm.costumerName}" />--%>
-<%--<c:url var="postIncuireUrl" value="/customers/${inquireForm.costumerName}/inquires" />--%>
-<%--action="/customers/{costumerName}/inquires" modelAttribute="inquireForm"--%>
         <sf:form  method="post" action="/customers/{costumerName}/inquires" modelAttribute="inquireForm" accept-charset="UTF-8">
             Description<br/>
             <sf:input  path="description" name="description" type="text" required="true" /><br/>
